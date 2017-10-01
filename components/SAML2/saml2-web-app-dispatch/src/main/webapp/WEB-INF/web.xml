@@ -63,7 +63,7 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>org.wso2.carbon.identity.sso.agent.SAML2SSOAgentContextEventListener</listener-class>
+        <listener-class>org.wso2.carbon.identity.sso.agent.SSOAgentContextEventListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.wso2.carbon.identity.sso.agent.session.management.SSOAgentHttpSessionListener</listener-class>

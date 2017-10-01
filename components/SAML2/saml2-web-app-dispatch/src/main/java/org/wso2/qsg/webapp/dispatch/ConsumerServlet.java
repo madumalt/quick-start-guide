@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * ConsumerServlet class for sendRedirect request coming to /consumer endpoint.
  */
-// TODO rename to {appName}Servlet
 public class ConsumerServlet extends HttpServlet {
 
     @Override

@@ -22,26 +22,26 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <display-name>PickUp</display-name>
 
-    <filter>
-        <filter-name>SSOAgentFilter</filter-name>
-        <filter-class>org.wso2.carbon.identity.sso.agent.SAML2SSOAgentFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SSOAgentFilter</filter-name>
-        <url-pattern>/consumer</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SSOAgentFilter</filter-name>
-        <url-pattern>/logout</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SSOAgentFilter</filter-name>
-        <url-pattern>/samlsso</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SSOAgentFilter</filter-name>
-        <url-pattern>*.jsp</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>SSOAgentFilter</filter-name>-->
+        <!--<filter-class>org.wso2.carbon.identity.sso.agent.OIDCSSOAgentFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SSOAgentFilter</filter-name>-->
+        <!--<url-pattern>/consumer</url-pattern>-->
+    <!--</filter-mapping>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SSOAgentFilter</filter-name>-->
+        <!--<url-pattern>/logout</url-pattern>-->
+    <!--</filter-mapping>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SSOAgentFilter</filter-name>-->
+        <!--<url-pattern>/samlsso</url-pattern>-->
+    <!--</filter-mapping>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SSOAgentFilter</filter-name>-->
+        <!--<url-pattern>*.jsp</url-pattern>-->
+    <!--</filter-mapping>-->
 
     <context-param>
         <param-name>property-file</param-name>
@@ -55,15 +55,15 @@
 
     <servlet>
         <servlet-name>ConsumerServlet</servlet-name>
-        <servlet-class>org.wso2.qsg.webapp.dispatch.ConsumerServlet</servlet-class>
+        <servlet-class>org.wso2.qsg.webapp.swift.OAuth2ClientServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ConsumerServlet</servlet-name>
-        <url-pattern>/consumer</url-pattern>
+        <url-pattern>/oauth2client</url-pattern>
     </servlet-mapping>
 
     <listener>
-        <listener-class>org.wso2.carbon.identity.sso.agent.SAML2SSOAgentContextEventListener</listener-class>
+        <listener-class>org.wso2.carbon.identity.sso.agent.SSOAgentContextEventListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.wso2.carbon.identity.sso.agent.session.management.SSOAgentHttpSessionListener

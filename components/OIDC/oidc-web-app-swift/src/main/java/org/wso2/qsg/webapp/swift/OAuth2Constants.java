@@ -26,14 +26,6 @@ public final class OAuth2Constants {
     public static final String ACCESS_TOKEN = "access_token";
     public static final String SESSION_STATE = "session_state";
 
-    // application specific request parameters and session attributes
-    public static final String CONSUMER_KEY = "consumerKey";
-    public static final String CALL_BACK_URL = "callbackurl";
-    public static final String OAUTH2_GRANT_TYPE = "grantType";
-    public static final String OAUTH2_AUTHZ_ENDPOINT = "authorizeEndpoint";
-    public static final String OIDC_LOGOUT_ENDPOINT = "logoutEndpoint";
-    public static final String OIDC_SESSION_IFRAME_ENDPOINT = "sessionIFrameEndpoint";
-
     // application specific session attributes
     public static final String CODE = "code";
 

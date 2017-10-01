@@ -30,18 +30,13 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuth2ClientServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+//        // Authentication and Authorization successful redirect to the required page.
+//        response.sendRedirect(request.getContextPath() + "/view.jsp");
 
         // Receives requests from the authorization server and sends them to the resource Swift.jsp.
-        RequestDispatcher dispatcher = req.getRequestDispatcher("Swift.jsp");
-        dispatcher.forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
-        doGet(req, resp);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Swift.jsp");
+        dispatcher.forward(request, response);
     }
 }

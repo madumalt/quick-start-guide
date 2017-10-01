@@ -1,34 +1,34 @@
 <%@page import="org.apache.oltu.oauth2.client.request.OAuthClientRequest" %>
-<%@page import="org.wso2.qsg.webapp.swift.OAuth2Constants" %>
-<%@ page import="java.util.Properties" %>
-<%@ page import="org.wso2.qsg.webapp.swift.SampleContextEventListener" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants.SSOAgentConfig.OIDC" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentFilterUtils" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     try {
-        Properties properties = SampleContextEventListener.getProperties();
+        SSOAgentConfig ssoAgentConfig = SSOAgentFilterUtils.getSSOAgentConfig(application);
         
-        String consumerKey = properties.getProperty("consumerKey");
-        String authzEndpoint = properties.getProperty("authzEndpoint");
-        String authzGrantType = properties.getProperty("authzGrantType");
-        String scope = properties.getProperty("scope");
-        String callBackUrl = properties.getProperty("callBackUrl");
-        String OIDC_LOGOUT_ENDPOINT = properties.getProperty("OIDC_LOGOUT_ENDPOINT");
-        String sessionIFrameEndpoint = properties.getProperty("sessionIFrameEndpoint");
+        String consumerKey = ssoAgentConfig.getOidc().getConsumerKey();
+        String authzEndpoint = ssoAgentConfig.getOidc().getAuthzEndpoint();
+        String authzGrantType = ssoAgentConfig.getOidc().getAuthzGrantType();
+        String scope = ssoAgentConfig.getOidc().getScope();
+        String callBackUrl = ssoAgentConfig.getOidc().getCallBackUrl();
+        String OIDC_LOGOUT_ENDPOINT = ssoAgentConfig.getOidc().getOIDCLogoutEndpoint();
+        String sessionIFrameEndpoint = ssoAgentConfig.getOidc().getOIDCLogoutEndpoint();
         
-        session.setAttribute(OAuth2Constants.OAUTH2_GRANT_TYPE, authzGrantType);
-        session.setAttribute(OAuth2Constants.CONSUMER_KEY, consumerKey);
-        session.setAttribute(OAuth2Constants.SCOPE, scope);
-        session.setAttribute(OAuth2Constants.CALL_BACK_URL, callBackUrl);
-        session.setAttribute(OAuth2Constants.OAUTH2_AUTHZ_ENDPOINT, authzEndpoint);
-        session.setAttribute(OAuth2Constants.OIDC_LOGOUT_ENDPOINT, OIDC_LOGOUT_ENDPOINT);
-        session.setAttribute(OAuth2Constants.OIDC_SESSION_IFRAME_ENDPOINT, sessionIFrameEndpoint);
+        session.setAttribute(OIDC.OAUTH2_GRANT_TYPE, authzGrantType);
+        session.setAttribute(OIDC.CONSUMER_KEY, consumerKey);
+        session.setAttribute(OIDC.SCOPE, scope);
+        session.setAttribute(OIDC.CALL_BACK_URL, callBackUrl);
+        session.setAttribute(OIDC.OAUTH2_AUTHZ_ENDPOINT, authzEndpoint);
+        session.setAttribute(OIDC.OIDC_LOGOUT_ENDPOINT, OIDC_LOGOUT_ENDPOINT);
+        session.setAttribute(OIDC.OIDC_SESSION_IFRAME_ENDPOINT, sessionIFrameEndpoint);
         
         OAuthClientRequest.AuthenticationRequestBuilder oAuthAuthenticationRequestBuilder =
                 new OAuthClientRequest.AuthenticationRequestBuilder(authzEndpoint);
         oAuthAuthenticationRequestBuilder
                 .setClientId(consumerKey)
-                .setRedirectURI((String) session.getAttribute(OAuth2Constants.CALL_BACK_URL))
+                .setRedirectURI((String) session.getAttribute(OIDC.CALL_BACK_URL))
                 .setResponseType(authzGrantType)
                 .setScope(scope);
         

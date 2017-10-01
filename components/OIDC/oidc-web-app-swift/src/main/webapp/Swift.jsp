@@ -6,17 +6,17 @@
 <%@ page import="org.apache.oltu.oauth2.common.message.types.GrantType" %>
 <%@ page import="org.apache.oltu.oauth2.client.response.OAuthClientResponse" %>
 <%@ page import="com.nimbusds.jwt.SignedJWT" %>
-<%@ page import="java.util.Properties" %>
-<%@ page import="org.wso2.qsg.webapp.swift.SampleContextEventListener" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentFilterUtils" %>
 <%
     String code = null;
     String idToken;
     String sessionState;
     String error;
     String name = null;
-    Properties properties;
-    properties = SampleContextEventListener.getProperties();
-    
+    SSOAgentConfig ssoAgentConfig = SSOAgentFilterUtils.getSSOAgentConfig(application);
+
+
     try {
         sessionState = request.getParameter(OAuth2Constants.SESSION_STATE);
         if (StringUtils.isNotBlank(sessionState)) {
@@ -46,12 +46,12 @@
         
         if (code != null) {
             OAuthClientRequest.TokenRequestBuilder oAuthTokenRequestBuilder =
-                    new OAuthClientRequest.TokenRequestBuilder(properties.getProperty("tokenEndpoint"));
-            
+                    new OAuthClientRequest.TokenRequestBuilder(ssoAgentConfig.getOidc().getAuthzEndpoint());
+
             OAuthClientRequest accessRequest = oAuthTokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE)
-                    .setClientId(properties.getProperty("consumerKey"))
-                    .setClientSecret(properties.getProperty("consumerSecret"))
-                    .setRedirectURI(properties.getProperty("callBackUrl"))
+                    .setClientId(ssoAgentConfig.getOidc().getConsumerKey())
+                    .setClientSecret(ssoAgentConfig.getOidc().getConsumerSecret())
+                    .setRedirectURI(ssoAgentConfig.getOidc().getCallBackUrl())
                     .setCode(code)
                     .buildBodyMessage();
             
@@ -64,10 +64,14 @@
             if (idToken != null) {
                 try {
                     name = SignedJWT.parse(idToken).getJWTClaimsSet().getSubject();
+                    System.out.println("id_token-----------------------" + idToken);
+                    System.out.println("name----------------------------" + name);
                 } catch (Exception e) {
-//ignore
+                    //ignore
+                    System.out.println("cannot parse id token -------------" + e);
                 }
             }
+            System.out.println("id_token----------------------------------" + idToken);
         }
     } catch (Exception e) {
         error = e.getMessage();
@@ -128,7 +132,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a
-                                href='<%=properties.getProperty("OIDC_LOGOUT_ENDPOINT")%>'>Logout</a>
+                                href='<%=ssoAgentConfig.getOidc().getOIDCLogoutEndpoint()%>'>Logout</a>
                         </li>
                     </ul>
                 </li>
